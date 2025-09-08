@@ -12,10 +12,14 @@ internal struct NOverlayImage {
     }
 
     private func makeOverlayImageWithPath() -> NMFOverlayImage {
-        let image = UIImage(contentsOfFile: path)
-        let scaledImage = UIImage(data: image!.pngData()!, scale: DisplayUtil.scale)
-        let overlayImg = NMFOverlayImage(image: scaledImage!)
-        return overlayImg
+        guard let image = UIImage(contentsOfFile: path),
+          let data = image.pngData(),
+          let scaledImage = UIImage(data: data, scale: DisplayUtil.scale) else {
+        // Fallback 이미지 (투명 1x1 PNG 같은 안전한 이미지 사용)
+        let fallbackImage = UIImage(color: UIColor.clear, size: CGSize(width: 1, height: 1))
+        return NMFOverlayImage(image: fallbackImage)
+    }
+    return NMFOverlayImage(image: scaledImage)
     }
     
     private func makeOverlayImageWithAssetPath() -> NMFOverlayImage {
