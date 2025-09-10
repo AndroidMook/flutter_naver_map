@@ -17,6 +17,7 @@ internal struct NOverlayImage {
            let scaledImage = UIImage(data: data, scale: DisplayUtil.scale) {
             return NMFOverlayImage(image: scaledImage)
         } else {
+            print("==============NOverlayImage makeOverlayImageWithPath NPE===================");
             // Fallback: 빈 1x1 이미지 직접 생성
             let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1))
             let emptyImage = renderer.image { _ in
